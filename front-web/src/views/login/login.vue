@@ -2,6 +2,7 @@
 import {reactive, ref} from 'vue'
 import router from '@/router'
 import {ElMessage} from "element-plus";
+import { login } from '@/net';
 
 const loginRef = ref();
 const rules = {
@@ -23,7 +24,8 @@ function userLogin() {
   loginRef.value.validate((valid:boolean) => {
     if (valid) {
       ElMessage.success("登录成功");
-      // login(...);
+      // login(loginForm.username, loginForm.password, loginForm.remember, ()=>{router.push("/monitor")});
+      router.push("/monitor") ///////
     }
   })
 }
