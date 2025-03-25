@@ -40,11 +40,11 @@ const online:boolean = false;
         <div class="specs">
           <span class="cpu-info">
             <i class="fa-solid fa-microchip"></i>
-            <span>92 cpu</span>
+            <span> 92 cpu</span>
           </span>
           <span class="memory-info">
             <i class="fa-solid fa-memory"></i>
-            <span>64 GB</span>
+            <span> 64 GB</span>
           </span>
         </div>
       </div>
@@ -80,11 +80,11 @@ const online:boolean = false;
 
 <style scoped>
 .server-card {
-  width: 360px;
-  height: 260px;
+  width: 280px;
+  height: 200px;
   border-radius: 6px;
   transition: all 0.3s;
-  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+  background: #ffffff;
 }
 
 .server-card:hover {
@@ -163,18 +163,29 @@ const online:boolean = false;
   margin-left: 2px;
 }
 
+:deep(.el-card__body) {
+  padding: 1px 4px;
+}
+
+:deep(.el-card__header) {
+  padding: 3px 4px;
+}
+
 .card-content {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
   font-size: 9px;
-  padding: 4px;
+  padding: 2px;
 }
 
 .ip-info {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
+  padding: 4px;
+  background: #f8f9fa;
+  border-radius: 3px;
 }
 
 .ip-address {
@@ -182,49 +193,54 @@ const online:boolean = false;
 }
 
 .copy-icon {
-  color: #409EFF;
   cursor: pointer;
-  transition: transform 0.2s;
+  font-size: 10px;
+  color: #909399;
+  padding: 4px;
+  transition: all 0.2s;
 }
 
 .copy-icon:hover {
+  color: #409EFF;
   transform: scale(1.1);
 }
 
-.hardware-info {
-  margin-top: 2px;
-}
 
-.processor {
-  font-weight: 500;
-  margin-bottom: 2px;
+.hardware-info {
+  padding: 2px;
+  background: #f8f9fa;
+  border-radius: 3px;
 }
 
 .specs {
   display: flex;
   gap: 8px;
-}
-
-.cpu-info, .memory-info {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+  margin-top: 2px;
 }
 
 .resource-usage {
-  margin: 2px 0;
+  display: flex;
+  flex-direction: column;
+  
+  gap: 2px;
   background: #f8f9fa;
-  padding: 4px;
+  padding: 6px;
   border-radius: 3px;
 }
 
 .resource-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+}
+
+.network-traffic {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 2px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.6);
+  background: #f8f9fa;
+  border-radius: 3px;
 }
 
 .resource-label {
@@ -234,14 +250,18 @@ const online:boolean = false;
   min-width: 30px;
 }
 
+:deep(div.el-progress__text) {
+  font-size: 11px!important;
+}
+
 :deep(.el-progress) {
   width: 100%;
-  margin-right: 8px;
 }
 
 :deep(.el-progress-bar__outer) {
   height: 4px !important;
   border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 :deep(.el-progress-bar__inner) {
@@ -253,12 +273,11 @@ const online:boolean = false;
   align-items: center;
   gap: 8px;
   background: #f8f9fa;
-  padding: 4px;
+  padding: 6px;
   border-radius: 3px;
 }
 
 .traffic-label {
-  font-size: 9px;
   color: #606266;
   font-weight: 500;
   min-width: 50px;
@@ -267,28 +286,18 @@ const online:boolean = false;
 .traffic-data {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 9px;
+  gap: 8px;
+  color: #606266;
 }
 
-.upload, .download {
+.upload,
+.download {
   display: flex;
   align-items: center;
-  gap: 3px;
-  padding: 2px 4px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 2px;
-}
-
-.upload i {
-  color: #F56C6C;
-}
-
-.download i {
-  color: #409EFF;
+  gap: 4px;
 }
 
 .divider {
-  display: none;
+  color: #dcdfe6;
 }
 </style>
