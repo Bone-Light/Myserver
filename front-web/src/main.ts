@@ -12,7 +12,9 @@ import 'element-plus/dist/index.css'    // 引入样式
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
+
 app.use(router)
 app.use(pinia)
 app.use(ElementPlus)
+
 app.mount('#app')
