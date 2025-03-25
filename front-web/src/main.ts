@@ -6,8 +6,11 @@ import axios from "axios";
 import {createPinia} from "pinia";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 axios.defaults.baseURL = 'http://localhost:8081'
+
 import ElementPlus from 'element-plus' // 新增
 import 'element-plus/dist/index.css'    // 引入样式
+
+
 
 const app = createApp(App)
 const pinia = createPinia()
