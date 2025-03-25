@@ -457,7 +457,7 @@ onUnmounted(() => {
 .el-main {
   padding: 20px;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: 0 10px;
   min-height: calc(100vh - 60px);
 }
 </style>

@@ -38,7 +38,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <template>
-    <el-container style="width: 100vw; height: 100vh; box-sizing: border-box;">
+    <el-container style="height: 100vh; box-sizing: border-box;">
       <el-aside :width="isCollapse ? '64px' : '200px'">
         <div class="aside-header">
           <el-avatar class="user-avatar">
@@ -109,13 +109,15 @@ const handleClose = (key: string, keyPath: string[]) => {
           </div>
         </el-header>
 
-        <el-main>
-          <el-form>
+        <el-main style="padding: 10px; max-width: 100%;">
+          <el-form style="max-width: 800px; margin: 0 auto 20px;">
             <el-form-item label="Hostname">
               <el-input placeholder="请输入主机名称"></el-input>
             </el-form-item>
           </el-form>
-          <server-card/>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
+            <server-card/>
+          </div>
         </el-main>
         <el-footer>Footer</el-footer>
       </el-container>
@@ -127,6 +129,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 </template>
 
 <style scoped>
+
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
