@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.DAO.entity;
 
 
 import com.alibaba.fastjson2.JSONObject;
