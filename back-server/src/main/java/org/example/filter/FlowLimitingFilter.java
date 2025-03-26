@@ -1,7 +1,5 @@
 package org.example.filter;
 
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONWriter;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -9,7 +7,7 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.example.entity.RestBean;
+import org.example.DAO.entity.RestBean;
 import org.example.utils.Const;
 import org.example.utils.FlowUtils;
 import org.springframework.beans.factory.annotation.Value;
