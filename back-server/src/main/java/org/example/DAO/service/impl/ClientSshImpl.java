@@ -1,8 +1,8 @@
 package org.example.DAO.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.DAO.entity.DTO.ClientSsh;
-import org.example.DAO.service.ClientSshService;
 import org.example.DAO.mapper.ClientSshMapper;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class ClientSshImpl extends ServiceImpl<ClientSshMapper, ClientSsh>
-    implements ClientSshService{
+    implements IService<ClientSsh> {
 
 }
 

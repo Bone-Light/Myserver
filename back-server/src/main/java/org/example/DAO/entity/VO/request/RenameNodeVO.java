@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
-public class RenameNodeNO {
+public class RenameNodeVO {
     @NotNull
     int id;
     @Length(min = 1, max = 10)

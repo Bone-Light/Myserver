@@ -6,11 +6,11 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.DAO.entity.DTO.Account;
 import org.example.DAO.entity.DTO.Client;
 import org.example.DAO.entity.RestBean;
 import org.example.DAO.service.AccountService;
 import org.example.DAO.service.ClientService;
-import org.example.entity.RestBean;
 import org.example.utils.Const;
 import org.example.utils.JwtUtils;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(url.startsWith("/monitor")){
             if(!url.endsWith("/register")){
                 // 自建
-                Client client = clientService.findCilentByToken(authorization);
+                Client client = clientService.findClientByToken(authorization);
                 if(client != null){
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.setCharacterEncoding("UTF-8");

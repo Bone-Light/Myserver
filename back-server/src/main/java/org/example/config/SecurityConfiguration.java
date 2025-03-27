@@ -66,7 +66,7 @@ public class SecurityConfiguration {
                 )
                 .logout(conf ->conf
                         .logoutUrl("/api/auth/logout")
-                        .logoutSuccessHandler(this::handleProcess)
+                        .logoutSuccessHandler(this::onLogoutSuccess)
                 )
                 .exceptionHandling(conf -> conf
                         .accessDeniedHandler(this::handleProcess)
@@ -104,7 +104,7 @@ public class SecurityConfiguration {
         }
     }
 
-    private void ouLogoutSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    private void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");
         PrintWriter writer = response.getWriter();
         String authorization = request.getHeader("Authorization");
