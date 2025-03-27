@@ -12,12 +12,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.DAO.entity.BaseData;
 
 @Data
 @TableName("db_account")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account implements BaseData {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String username;

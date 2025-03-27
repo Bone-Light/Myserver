@@ -26,13 +26,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Swagger API文档配置类
+ * 用于配置API文档的展示内容、安全认证方式和自定义接口信息
+ */
 @Configuration
+/**
+ * 配置JWT Bearer Token认证方式
+ * type: 使用HTTP认证
+ * scheme: 使用Bearer token
+ * in: token在请求头中
+ */
 @SecurityScheme(type = SecuritySchemeType.HTTP,
                 scheme = "Bearer",
                 in = SecuritySchemeIn.HEADER)
+/**
+ * 定义API文档的全局安全要求
+ * 所有接口默认需要Authorization认证
+ */
 @OpenAPIDefinition(security = { @SecurityRequirement(name = "Authorization")})
 public class SwaggerConfiguration {
 
+    /**
+     * 配置OpenAPI基本信息
+     * @return OpenAPI配置对象
+     */
     @Bean
     public OpenAPI springShopOpenAPI(){
         return new OpenAPI()
@@ -50,34 +68,62 @@ public class SwaggerConfiguration {
                 );
     }
 
+    /**
+     * 自定义OpenAPI配置
+     * 用于添加额外的认证相关接口
+     * @return OpenApiCustomizer 自定义配置器
+     */
     @Bean
     public OpenApiCustomizer customizerGlobalHeaderOpenApiCustomizer() {
-        return api -> this.authorizePathItems();
+        return api -> this.authorizePathItems().forEach(api.getPaths()::addPathItem);
     }
 
+    /**
+     * 创建认证相关接口的PathItem配置
+     * 包括登录和退出登录接口的详细信息
+     * @return 包含认证接口配置的Map
+     */
     private Map<String, PathItem> authorizePathItems(){
         Map<String, PathItem> map = new HashMap<>();
+        // 配置登录接口
         map.put("api/auth/login", new PathItem()
-                .post(new Operation()
-                        .tags(List.of("登录验证相关"))
-                        .summary("登录验证接口")
-                        .addParametersItem(new QueryParameter()
-                                .name("username")
-                                .required(true)
+                .post(new Operation()  // 设置HTTP方法为POST
+                        .tags(List.of("登录验证相关"))  // 设置接口所属的标签分组
+                        .summary("登录验证接口")  // 接口的概要说明
+                        .addParametersItem(new QueryParameter()  // 添加用户名参数
+                                .name("username")  // 参数名
+                                .required(true)  // 设置为必填参数
                         )
-                        .addParametersItem(new QueryParameter()
-                                .name("password")
-                                .required(true)
+                        .addParametersItem(new QueryParameter()  // 添加密码参数
+                                .name("password")  // 参数名
+                                .required(true)  // 设置为必填参数
                         )
-                        .responses(new ApiResponses()
-                                .addApiResponse("200", new ApiResponse()
-                                        .description("OK")
-                                        .content(new Content().addMediaType("*/*", new MediaType()
-                                                        .example(RestBean.success(new AuthorizeVO()).asJsonString())
+                        .responses(new ApiResponses()  // 配置接口响应
+                                .addApiResponse("200", new ApiResponse()  // 添加200成功响应
+                                        .description("OK")  // 响应说明
+                                        .content(new Content().addMediaType("*/*", new MediaType()  // 设置响应内容类型
+                                                        .example(RestBean.success(new AuthorizeVO()).asJsonString())  // 响应示例
                                         ))
                                 )
                         )
                 )
+        );
 
+        // 配置退出登录接口
+        map.put("api/auth/logout", new PathItem()
+                .get(new Operation()  // 设置HTTP方法为GET
+                        .tags(List.of("登录验证相关"))  // 设置接口所属的标签分组
+                        .summary("退出登录接口")  // 接口的概要说明
+                        .responses(new ApiResponses()  // 配置接口响应
+                                .addApiResponse("200", new ApiResponse()  // 添加200成功响应
+                                        .description("OK")  // 响应说明
+                                        .content(new Content().addMediaType("*/*", new MediaType()  // 设置响应内容类型
+                                                .example(RestBean.success(new AuthorizeVO()).asJsonString())  // 响应示例
+                                        ))
+                                )
+                        )
+                )
+        );
+        return map;
     }
 }

@@ -6,7 +6,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.DAO.entity.DTO.Client;
 import org.example.DAO.entity.RestBean;
+import org.example.DAO.service.AccountService;
+import org.example.DAO.service.ClientService;
 import org.example.entity.RestBean;
 import org.example.utils.Const;
 import org.example.utils.JwtUtils;
@@ -17,20 +20,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 @Component
-public class JwtAuthenticationFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     @Resource
     JwtUtils jwtUtils;
 
-    //@Resource
-//    ClientServer
-    //@Resource
-//    AccountService accountService
+    @Resource
+    ClientService clientService;
+    @Resource
+    AccountService accountService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -39,7 +43,7 @@ public class JwtAuthenticationFilter {
         if(url.startsWith("/monitor")){
             if(!url.endsWith("/register")){
                 // 自建
-                Client client =  clientService.findCilentByToken(authorization);
+                Client client = clientService.findCilentByToken(authorization);
                 if(client != null){
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.setCharacterEncoding("UTF-8");
