@@ -101,7 +101,7 @@ public class MonitorUtils {
                 .toList();
     }
 
-    public NetworkIF findNetWorkInterface(HardwareAbstractionLayer hardware) {
+    private NetworkIF findNetWorkInterface(HardwareAbstractionLayer hardware) {
         try {
             String target = config.getNetworkInterface();
             List<NetworkIF> ifs = hardware.getNetworkIFs()
@@ -134,5 +134,4 @@ public class MonitorUtils {
         long totalCpu = cUser + nice + irq + softIrq + steal + cSys + ioWait + idle;
         return (cSys + cUser) * 1.0 / totalCpu;
     }
-
 }
