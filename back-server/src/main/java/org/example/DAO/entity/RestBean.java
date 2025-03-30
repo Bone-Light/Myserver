@@ -13,7 +13,7 @@ public record RestBean<T> (long id, int code, T data, String message) {
     public static <T> RestBean<T> failure(int code, String message){return new RestBean<>(requestId(), code, null, message);}
     public static <T> RestBean<T> forbidden(String message) {return failure(403, message);}
     public static <T> RestBean<T> unauthorized(String message) {return failure(401, message);}
-    public static <T> RestBean<T> noPermission(String message) {return new RestBean<>(requestId(),401, null, "权限不足,拒绝请求");}
+    public static <T> RestBean<T> noPermission() {return new RestBean<>(requestId(),401, null, "权限不足,拒绝请求");}
 
     public String asJsonString(){return JSONObject.toJSONString(this, JSONWriter.Feature.WriteNulls);}
 

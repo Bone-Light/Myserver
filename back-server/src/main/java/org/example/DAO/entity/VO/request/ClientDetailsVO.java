@@ -1,8 +1,10 @@
 package org.example.DAO.entity.VO.request;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-public class ClientDetailVO {
+@Data
+public class ClientDetailsVO {
     @NotNull
     String osArch;
     @NotNull

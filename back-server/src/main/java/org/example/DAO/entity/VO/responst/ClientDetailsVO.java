@@ -1,5 +1,8 @@
 package org.example.DAO.entity.VO.responst;
 
+import lombok.Data;
+
+@Data
 public class ClientDetailsVO {
     int id;
     String name;

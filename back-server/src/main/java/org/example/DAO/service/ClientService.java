@@ -3,6 +3,7 @@ package org.example.DAO.service;
 import org.example.DAO.entity.DTO.Client;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.DAO.entity.VO.request.*;
+import org.example.DAO.entity.VO.request.ClientDetailsVO;
 import org.example.DAO.entity.VO.responst.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface ClientService extends IService<Client> {
     Client findClientById(int id);
     Client findClientByToken(String token);
     boolean verifyAndRegister(String token);
-    void updateClientDetail(ClientDetailVO vo, Client client);
+    void updateClientDetail(ClientDetailsVO vo, Client client);
     void updateRuntimeDetail(RuntimeDetailVO vo, Client client);
     List<ClientPreviewVO> listClients();
     List<ClientSimpleVO> listSimpleList();

@@ -1,7 +1,9 @@
 package org.example.DAO.entity.VO.request;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 public class RuntimeDetailVO {
     @NotNull
     long timestamp;
