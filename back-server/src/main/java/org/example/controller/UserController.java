@@ -18,7 +18,6 @@ public class UserController {
     @Resource
     AccountService accountService;
 
-    // TODO: _UNDO_ changePassword
     @PostMapping
     public RestBean<Void> changePassword(@RequestBody @Valid ChangePasswordVO vo,
                                            @RequestAttribute(Const.ATTR_USER_ID) int userId){
@@ -26,7 +25,6 @@ public class UserController {
                 RestBean.success() : RestBean.failure(401, "原密码输入错误");
     }
 
-    // TODO: _UNDO_ modifyEmail
     @PostMapping("/modify-email")
     public RestBean<Void> modifyEmail(@RequestAttribute(Const.ATTR_USER_ID) int id,
                                       @RequestBody @Valid ModifyEmailVO vo){
@@ -35,7 +33,6 @@ public class UserController {
     }
 
     // uid 将会被动态赋予 { xxx? uid = x }
-    // TODO: _UNDO_ deleteSubAccount
     @PostMapping("/sub/delete")
     public RestBean<Void> deleteAccount(int uid,
                                         @RequestAttribute(Const.ATTR_USER_ID) int userId){
@@ -44,7 +41,6 @@ public class UserController {
         return RestBean.success();
     }
 
-    // TODO: listSubAccount
     @GetMapping("/sub/list")
     public RestBean<List<SubAccountVO>> subAccountId() {
         return RestBean.success(accountService.listSubAccount());

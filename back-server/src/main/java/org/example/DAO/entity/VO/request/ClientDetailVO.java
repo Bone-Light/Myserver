@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class ClientDetailsVO {
+public class ClientDetailVO {
     @NotNull
     String osArch;
     @NotNull

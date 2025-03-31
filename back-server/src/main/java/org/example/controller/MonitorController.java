@@ -6,10 +6,7 @@ import jakarta.validation.Valid;
 import org.example.DAO.entity.DTO.Account;
 import org.example.DAO.entity.RestBean;
 import org.example.DAO.entity.VO.request.*;
-import org.example.DAO.entity.VO.responst.ClientPreviewVO;
-import org.example.DAO.entity.VO.responst.ClientSimpleVO;
-import org.example.DAO.entity.VO.responst.RuntimeHistoryVO;
-import org.example.DAO.entity.VO.responst.SshSettingsVO;
+import org.example.DAO.entity.VO.responst.*;
 import org.example.DAO.service.AccountService;
 import org.example.DAO.service.ClientService;
 import org.example.utils.Const;
@@ -27,7 +24,6 @@ public class MonitorController {
     @Resource
     AccountService accountService;
 
-    // TODO: _UNDO_ accountAccessClients
     @GetMapping("/list")
     public RestBean<List<ClientPreviewVO>> listAllClient(@RequestAttribute(Const.ATTR_USER_ID) int userId,
                                                 @RequestAttribute(Const.ATTR_USER_ROLE) String userRole) {
@@ -43,7 +39,7 @@ public class MonitorController {
             );
         }
     }
-    // TODO: listSimpleList()
+
     @GetMapping("/simple-list")
     public RestBean<List<ClientSimpleVO>> simpleClientList(@RequestAttribute(Const.ATTR_USER_ID) String userRole) {
         if(this.isAdminAccount(userRole)) {
@@ -53,7 +49,6 @@ public class MonitorController {
         }
     }
 
-    // TODO: renameClient(vo)
     @PostMapping("rename")
     public RestBean<Void> renameClient(@RequestBody @Valid RenameClientVO vo,
                                        @RequestAttribute(Const.ATTR_USER_ID) int userId,
@@ -65,7 +60,6 @@ public class MonitorController {
             return RestBean.noPermission();
         }
     }
-    // TODO: renameNode(vo)
     @PostMapping("node")
     public RestBean<Void> renameNode(@RequestBody @Valid RenameNodeVO vo,
                                      @RequestAttribute(Const.ATTR_USER_ID) int userId,
@@ -77,7 +71,6 @@ public class MonitorController {
             return RestBean.noPermission();
         }
     }
-    // TODO: clientDetails(userId)
     @GetMapping("details")
     public RestBean<ClientDetailsVO> details(int clientId,
                                              @RequestAttribute(Const.ATTR_USER_ID) int userId,
@@ -88,7 +81,7 @@ public class MonitorController {
             return RestBean.noPermission();
         }
     }
-    // TODO: clientRuntimeDetailsHistory(clientId)
+
     @GetMapping("/runtime-history")
     public RestBean<RuntimeHistoryVO> runtimeDetailsHistory(int clientId,
                                                             @RequestAttribute(Const.ATTR_USER_ID) int userId,
@@ -99,7 +92,7 @@ public class MonitorController {
             return RestBean.noPermission();
         }
     }
-    // TODO: clientRuntimeDetailsNow(clientId)
+
     @GetMapping("/runtime-now")
     public RestBean<RuntimeDetailVO> runtimeDetailsNow(int clientId,
                                                        @RequestAttribute(Const.ATTR_USER_ID) int userId,
@@ -110,7 +103,7 @@ public class MonitorController {
             return RestBean.noPermission();
         }
     }
-    // TODO: registerToken()
+
     @GetMapping("/register")
     public RestBean<String> registerClient(int clientId,
                                            @RequestAttribute(Const.ATTR_USER_ROLE) String userRole){
@@ -121,7 +114,6 @@ public class MonitorController {
         }
     }
 
-    // TODO: deleteClient(clientId)
     @GetMapping("/delete")
     public RestBean<String> deleteClient(int clientId,
                                          @RequestAttribute(Const.ATTR_USER_ROLE) String userRole){
@@ -132,7 +124,6 @@ public class MonitorController {
             return RestBean.noPermission();
         }
     }
-    // TODO: saveClientSshConnection(vo)
     @PostMapping("/ssh-save")
     public RestBean<Void> saveSshClient(@RequestBody @Valid SshConnectionVO vo,
                                         @RequestAttribute(Const.ATTR_USER_ID) int userId,
@@ -145,7 +136,6 @@ public class MonitorController {
         }
     }
 
-    // TODO: sshSettings(clientId)
     @GetMapping("/ssh")
     public RestBean<SshSettingsVO> sshClient(int clientId,
                                              @RequestAttribute(Const.ATTR_USER_ID) int userId,

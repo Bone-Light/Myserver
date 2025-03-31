@@ -28,19 +28,16 @@ public class AuthorizeController {
     public RestBean<Void> askVerifyCode(@RequestParam @Email String email,
                                         @RequestParam @Pattern(regexp = "(reset|modify)") String type,
                                         HttpServletRequest request) {
-        // TODO:  AccountService:registerEmailVerifyCode 等待实现
         return this.messageHandle(() -> accountService.registerEmailVerifyCode(type, String.valueOf(email), request.getRemoteAddr()));
     }
 
     @PostMapping("/reset-confirm")
     public RestBean<Void> resetConfirm(@RequestBody @Valid ConfirmResetVO vo){
-        // TODO:  AccountService:resetConfirm 等待实现
         return this.messageHandle(() -> accountService.resetConfirm(vo));
     }
 
     @PostMapping("/reset-password")
     public RestBean<Void> resetPassword(@RequestBody @Valid EmailResetVO vo){
-        // TODO:  AccountService:resetEmailAccountPassword 等待实现
         return this.messageHandle(() ->
                 accountService.resetEmailAccountPassword(vo));
     }
