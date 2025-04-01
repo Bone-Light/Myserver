@@ -77,14 +77,14 @@ public class RequestLogFilter extends OncePerRequestFilter {
                     user.getUsername(),
                     id,
                     user.getAuthorities(),
-                    object.toString()
+                    object
                     );
         } else {
             log.info("请求URL: \"{}\"({}) | 远程IP地址: {} | 身份: 未验证 | 请求参数列表: {}",
                     request.getServletPath(),
                     request.getMethod(),
                     request.getRemoteAddr(),
-                    object.toString()
+                    object
             );
         }
     }

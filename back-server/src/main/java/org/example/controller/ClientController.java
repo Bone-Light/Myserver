@@ -4,6 +4,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.example.DAO.entity.DTO.Client;
 import org.example.DAO.entity.RestBean;
+import org.example.DAO.entity.VO.request.RuntimeDetailVO;
 import org.example.DAO.entity.VO.responst.ClientDetailsVO;
 import org.example.DAO.entity.VO.request.ClientDetailVO;
 import org.example.DAO.service.ClientService;
@@ -26,6 +27,13 @@ public class ClientController {
     public RestBean<Void> updateClientDetails(@RequestAttribute(Const.ATTR_CLIENT) Client client,
                                               @RequestBody @Valid ClientDetailVO vo){
         clientService.updateClientDetail(vo, client);
+        return RestBean.success();
+    }
+
+    @PostMapping("/runtime")
+    public RestBean<Void> runtimeClient(@RequestAttribute(Const.ATTR_CLIENT) Client client,
+                                        @RequestBody @Valid RuntimeDetailVO vo) {
+        clientService.updateRuntimeDetail(vo, client);
         return RestBean.success();
     }
 }

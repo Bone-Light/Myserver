@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/sub/list")
-    public RestBean<List<SubAccountVO>> subAccountId() {
+    public RestBean<List<SubAccountVO>> subAccountList() {
         return RestBean.success(accountService.listSubAccount());
     }
 }

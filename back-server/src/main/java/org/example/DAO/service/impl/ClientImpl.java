@@ -13,6 +13,7 @@ import org.example.DAO.mapper.ClientDetailMapper;
 import org.example.DAO.mapper.ClientSshMapper;
 import org.example.DAO.service.ClientService;
 import org.example.DAO.mapper.ClientMapper;
+import org.example.utils.InfluxDBUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +36,8 @@ public class ClientImpl extends ServiceImpl<ClientMapper, Client>
     @Resource
     ClientDetailMapper detailMapper;
 
-    // TODO: InfluxDB 依赖未解决
     @Resource
-    InfluxDbUtils influx;
+    InfluxDBUtils influx;
 
     @Resource
     ClientSshMapper clientSshMapper;
@@ -51,12 +51,12 @@ public class ClientImpl extends ServiceImpl<ClientMapper, Client>
 
     @Override
     public Client findClientById(int id) {
-        return null;
+        return clientIdCache.get(id);
     }
 
     @Override
     public Client findClientByToken(String token) {
-        return null;
+        return clientTokenCache.get(token);
     }
 
     @Override
@@ -87,7 +87,8 @@ public class ClientImpl extends ServiceImpl<ClientMapper, Client>
 
     @Override
     public void updateRuntimeDetail(RuntimeDetailVO vo, Client client) {
-
+        currentRuntime.put(client.getId(), vo);
+        influx.writeRuntimeData(client.getId(), vo);
     }
 
     @Override

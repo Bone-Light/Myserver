@@ -1,9 +1,6 @@
 package org.example.config;
 
 import jakarta.annotation.Resource;
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.DAO.entity.DTO.Account;
@@ -81,7 +78,7 @@ public class SecurityConfiguration {
                 .build();
     }
 
-    private void handleProcess(HttpServletRequest request, HttpServletResponse response, Object exceptionOrAuthentication) throws IOException, ServletException {
+    private void handleProcess(HttpServletRequest request, HttpServletResponse response, Object exceptionOrAuthentication) throws IOException {
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter writer = response.getWriter();
         if(exceptionOrAuthentication instanceof AccessDeniedException exception){
@@ -104,7 +101,7 @@ public class SecurityConfiguration {
         }
     }
 
-    private void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    private void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         response.setContentType("application/json;charset=utf-8");
         PrintWriter writer = response.getWriter();
         String authorization = request.getHeader("Authorization");
