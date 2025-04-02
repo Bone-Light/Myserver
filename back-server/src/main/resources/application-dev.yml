@@ -8,20 +8,25 @@ springdoc:
     operations-sorter: alpha
 
 spring:
-  #  influx:
-  #    url: http://localhost:8086
-  #    user: admin
-  #    password: 12345678
+  influxdb:
+    url: http://121.43.233.234:8086
+    username: "oilbone"  # 或使用 Token 认证
+    password: "123123123"
+    org: "oilbone_class"
+    bucket: "Demo"
   mail:
     host: smtp.126.com
     username: oilbone@126.com
     password: GLhCjNzgzQXareYv
 
   rabbitmq:
-    addresses: localhost
-    username: admin
-    password: admin
-    virtual-host: /
+    addresses: 121.43.233.234
+    username: oilbone
+    password: 123123123
+    virtual-host: /test
+    listener:
+      simple:
+        acknowledge-mode: auto  # 改为自动确认
 
   datasource:
     url: jdbc:mysql://localhost:3306/monitor

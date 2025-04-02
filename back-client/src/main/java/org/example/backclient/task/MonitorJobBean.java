@@ -2,24 +2,22 @@ package org.example.backclient.task;
 
 import jakarta.annotation.Resource;
 import org.example.backclient.entity.RuntimeDetail;
+import org.example.backclient.utils.MonitorUtils;
 import org.example.backclient.utils.NetUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
-
-import javax.management.monitor.Monitor;
-
 @Component
 public class MonitorJobBean extends QuartzJobBean {
     @Resource
-    Monitor monitor;
+    MonitorUtils monitor;
     @Resource
     NetUtils netUtils;
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        RuntimeDetail runtimeDetail = new RuntimeDetail();
+        RuntimeDetail runtimeDetail = monitor.monitorRuntimeDetail();
         netUtils.updateRuntimeDetails(runtimeDetail);
     }
 }

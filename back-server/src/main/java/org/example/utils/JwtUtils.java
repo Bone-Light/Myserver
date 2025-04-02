@@ -22,7 +22,7 @@ public class JwtUtils {
     @Value("${spring.security.jwt.key}")
     private String key;
 
-    @Value("${spring.secrity.jwt.expire}")
+    @Value("${spring.security.jwt.expire}")
     private int expire;
 
     @Value("${spring.security.jwt.limit.base}")

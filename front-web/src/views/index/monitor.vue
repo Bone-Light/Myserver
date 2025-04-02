@@ -8,7 +8,8 @@ import {
   Setting,
   User,
   Medal,
-  SwitchButton
+  SwitchButton,
+  Plus,
 } from "@element-plus/icons-vue";
 
 const isCollapse = ref(false);
@@ -103,7 +104,7 @@ const handleClose = (key: string, keyPath: string[]) => {
             <div>
               <el-button type="primary">
                 添加新主机
-                <el-icon><plus /></el-icon>
+                <el-icon><Plus/></el-icon>
               </el-button>
             </div>
           </div>

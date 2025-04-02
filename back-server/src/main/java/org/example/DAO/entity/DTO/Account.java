@@ -3,6 +3,7 @@ package org.example.DAO.entity.DTO;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson2.JSONArray;
@@ -20,13 +21,13 @@ import org.example.DAO.entity.BaseData;
 @NoArgsConstructor
 public class Account implements BaseData {
     @TableId(type = IdType.AUTO)
-    private Integer id;
-    private String username;
-    private String email;
-    private String password;
-    private String role;
-    private String clients;
-    private LocalDateTime registerTime;
+    Integer id;
+    String username;
+    String email;
+    String password;
+    String role;
+    Date registerTime;
+    String clients;
 
     public List<Integer> getClientList() {
         if(clients == null) return Collections.emptyList();

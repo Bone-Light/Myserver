@@ -22,15 +22,16 @@ import java.util.List;
 
 @Component
 public class InfluxDBUtils {
-    @Value("${spring.influx.url}")
+    @Value("${spring.influxdb.url}")
     String url;
-    @Value("${spring.influx.user}")
+    @Value("${spring.influxdb.username}")
     String user;
-    @Value("${spring.influx.password")
+    @Value("${spring.datasource.password}")
     String password;
-
-    private final String BUCKET = "monitor";
-    private final String ORG = "Bonelight";
+    @Value("${spring.influxdb.bucket}")
+    String BUCKET;
+    @Value("${spring.influxdb.org}")
+    String ORG;
 
     private InfluxDBClient client;
 
