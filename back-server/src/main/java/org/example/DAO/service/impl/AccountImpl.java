@@ -15,8 +15,6 @@ import org.example.DAO.mapper.AccountMapper;
 import org.example.utils.Const;
 import org.example.utils.FlowUtils;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.User;
@@ -25,7 +23,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -41,15 +38,13 @@ public class AccountImpl extends ServiceImpl<AccountMapper, Account>
     @Value("${spring.web.verify.mail-limit}")
     int verifyLimit;
     @Resource
-    AmqpTemplate amqpTemplate;
+    AmqpTemplate rabbitTemplate;
     @Resource
     StringRedisTemplate stringRedisTemplate;
     @Resource
     PasswordEncoder passwordEncoder;
     @Resource
     FlowUtils flowUtils;
-    @Resource
-    private RabbitTemplate rabbitTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
@@ -98,6 +93,7 @@ public class AccountImpl extends ServiceImpl<AccountMapper, Account>
     @Override
     public String resetConfirm(ConfirmResetVO info) {
         String email = info.getEmail();
+        if(this.query().eq("email", email).count() == 0) return "该邮箱未注册";
         String code = this.getEmailVerifyCode(email);
         if(code == null) return "请先获取验证码";
         if(!code.equals(info.getCode())) return "验证码错误,请重新输入";
@@ -155,7 +151,6 @@ public class AccountImpl extends ServiceImpl<AccountMapper, Account>
                 .eq("email", text)
                 .one();
     }
-
 
 
 

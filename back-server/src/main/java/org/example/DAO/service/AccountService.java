@@ -26,5 +26,4 @@ public interface AccountService extends IService<Account>, UserDetailsService {
     void deleteSubAccount(int uid);
     List<SubAccountVO> listSubAccount();
     String modifyEmail(int id, ModifyEmailVO vo);
-
 }
