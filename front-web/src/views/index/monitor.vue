@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import ServerCard from "@/views/component/ServerCard.vue";
-import { ref } from 'vue';
+import {reactive, ref} from 'vue';
+import {useStore} from '@/store'
+import {get} from '@/net'
 import {
   Document,
   HomeFilled,
@@ -11,9 +13,13 @@ import {
   SwitchButton,
   Plus,
 } from "@element-plus/icons-vue";
+import {useRoute} from "vue-router";
 
 const isCollapse = ref(false);
 const activeIndex = ref('1');
+const list = ref([])
+const store = useStore();
+const route = useRoute();
 
 const userFunc = [
   { name: '个人名片', index: 'profile', path: '/', icon: User },
@@ -27,6 +33,48 @@ const menuItems = [
   { name: '运维面板', index: '3', path: '/', icon: Monitor },
   { name: '用户设置', index: '4', path: '/', icon: Setting },
 ];
+
+const locations = [
+  {name: 'cn', desc: '中国大陆'},
+  {name: 'hk', desc: '香港'},
+  {name: 'jp', desc: '日本'},
+  {name: 'us', desc: '美国'},
+  {name: 'sg', desc: '新加坡'},
+  {name: 'kr', desc: '韩国'},
+  {name: 'de', desc: '德国'}
+];
+
+const checkNodes = ref([]);
+
+const detail = reactive({
+  show: true,
+  id: -1
+})
+
+const updateList = () => {
+  if (route.name === 'manage') {
+    get('/api/monitor/list', (data:any) => list.value = data)
+  }
+}
+
+const register = reactive({
+  show: false,
+  token: ''
+})
+
+const refreshToken = () => get('/api/monitor/register', (token:string) => register.token = token)
+
+
+const terminal = reactive({
+  show: false,
+  id: -1
+})
+
+function openTerminal(id){
+    terminal.show = true;
+    terminal.id = id;
+    detail.show = false;
+}
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
@@ -115,6 +163,14 @@ const handleClose = (key: string, keyPath: string[]) => {
             <el-form-item label="Hostname">
               <el-input placeholder="请输入主机名称"></el-input>
             </el-form-item>
+            <el-form-item>
+              <el-checkbox-group v-model="checkNodes">
+                <el-checkbox v-for="node in locations" :key="node" :label="node.name">
+                  <span :class="`flag-icon flag-icon-${node.name}`"></span>
+                  <span style="font-size: 13px; margin-left: 10px">{{ node.desc }}</span>
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
           </el-form>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
             <server-card/>
@@ -123,7 +179,8 @@ const handleClose = (key: string, keyPath: string[]) => {
         <el-footer>Footer</el-footer>
       </el-container>
 
-      <el-drawer>
+      <el-drawer size="520" v-model="detail.show" :show-close="false"
+                  :with-header="false" v-if="list.length" @close="detail.id">
         Drawer
       </el-drawer>
     </el-container>
