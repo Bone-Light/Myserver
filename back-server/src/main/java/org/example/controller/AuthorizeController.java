@@ -24,6 +24,12 @@ public class AuthorizeController {
     @Resource
     AccountService accountService;
 
+    @GetMapping("/test")
+    public RestBean<String> test(){
+        System.out.println("test");
+        return RestBean.success("test");
+    }
+
     @GetMapping("/ask-code")
     public RestBean<Void> askVerifyCode(@RequestParam @Email String email,
                                         @RequestParam @Pattern(regexp = "(reset|modify)") String type,

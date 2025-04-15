@@ -83,7 +83,7 @@ public class JwtUtils {
         return User
                 .withUsername(claims.get("name").asString())
                 .password("******")
-                .authorities(claims.get("authoritises").asArray(String.class))
+                .authorities(claims.get("authorities").asArray(String.class))
                 .build();
     }
 

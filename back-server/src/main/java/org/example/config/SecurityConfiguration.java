@@ -44,14 +44,10 @@ public class SecurityConfiguration {
             HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(conf -> conf
-                        .requestMatchers(
-                                "/terminal/**",
-                                "api/auth/**",
-                                "/error",
-                                "monitor/**",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**"
-                        ).permitAll()
+                        .requestMatchers("/terminal/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/error").permitAll()
+                        .requestMatchers("/monitor/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/user/sub/**").hasRole(Const.ROLE_ADMIN)
                         .anyRequest().hasAnyRole(Const.ROLE_ADMIN, Const.ROLE_NORMAL)
                 )
@@ -79,7 +75,7 @@ public class SecurityConfiguration {
     }
 
     private void handleProcess(HttpServletRequest request, HttpServletResponse response, Object exceptionOrAuthentication) throws IOException {
-        response.setContentType("application/json; charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         PrintWriter writer = response.getWriter();
         if(exceptionOrAuthentication instanceof AccessDeniedException exception){
             writer.write(RestBean

@@ -26,7 +26,7 @@ public class InfluxDBUtils {
     String url;
     @Value("${spring.influxdb.username}")
     String user;
-    @Value("${spring.datasource.password}")
+    @Value("${spring.influxdb.password}")
     String password;
     @Value("${spring.influxdb.bucket}")
     String BUCKET;

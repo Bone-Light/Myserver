@@ -27,6 +27,10 @@ public class NetUtils{
     public boolean registerToServer(String address, String token) {
         log.info("正在向服务端申请注册, 请稍后");
         Response response = this.doGet("/register", address, token);
+        if(response == null) {
+            log.error("注册失败：无法连接到服务器");
+            return false;
+        }
         if(response.success()){
             log.info("客户端注册成功");
         } else {

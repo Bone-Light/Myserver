@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.example.DAO.entity.DTO.Client;
 import org.example.DAO.entity.DTO.ClientDetail;
 import org.example.DAO.entity.DTO.ClientSsh;
@@ -25,7 +26,9 @@ import java.util.concurrent.ConcurrentHashMap;
 * @author 吾骨封灯
 * @since 2025-03-26 19:18:11
 */
+
 @Service
+@Slf4j
 public class ClientImpl extends ServiceImpl<ClientMapper, Client>
     implements ClientService{
 
@@ -206,6 +209,7 @@ public class ClientImpl extends ServiceImpl<ClientMapper, Client>
         for(int i = 0; i < 24; i ++) {
             stringBuilder.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
         }
+        System.out.println(stringBuilder);
         return stringBuilder.toString();
     }
 }

@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if(!url.endsWith("/register")){
                 // 自建
                 Client client = clientService.findClientByToken(authorization);
-                if(client != null){
+                if(client == null){
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(RestBean.failure(401, "未注册").asJsonString());
@@ -75,7 +75,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }
-
         chain.doFilter(request,response);
     }
 

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {ref, onMounted, watch, onUnmounted} from "vue";
 import {useRouter} from 'vue-router';
-import { User, SwitchButton, Document, HomeFilled, Star, Monitor } from '@element-plus/icons-vue';
+import { User, SwitchButton, Document, HomeFilled, Star, Monitor,Moon,Sunny } from '@element-plus/icons-vue';
+import {useDark} from "@vueuse/core";
 const router = useRouter();
 const activeIndex = ref('首页');
 const scrolled = ref(false);
@@ -25,6 +26,8 @@ const handleSelect = (index: string) => {
 const handleScroll = () => {
   scrolled.value = window.scrollY > 20;
 };
+
+const dark = useDark();
 
 // 监听路由变化，更新活跃菜单项
 watch(() => router.currentRoute.value.path, (newPath) => {
@@ -73,6 +76,12 @@ onUnmounted(() => {
             <span class="menu-text">{{ item.name }}</span>
           </el-menu-item>
         </el-menu>
+        <el-switch class="switch"
+                   v-model="dark"
+                   active-color="#424242"
+                   :active-action-icon="Moon"
+                   :inactive-action-icon="Sunny"
+        />
         <div class="right-area">
           <el-tooltip content="个人中心" placement="bottom" :enterable="false">
             <el-button class="user-btn" type="primary" link>
@@ -459,5 +468,9 @@ onUnmounted(() => {
   max-width: 1400px;
   margin: 0 10px;
   min-height: calc(100vh - 60px);
+}
+
+.switch {
+  margin: 0 20px;
 }
 </style>

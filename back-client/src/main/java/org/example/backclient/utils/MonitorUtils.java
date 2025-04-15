@@ -97,6 +97,7 @@ public class MonitorUtils {
     public List<String> listNetWorkInterfaceName() {
         return info.getHardware().getNetworkIFs()
                 .stream()
+                .filter(networkInterface -> networkInterface.getIPv4addr().length > 0)
                 .map(NetworkIF::getName)
                 .toList();
     }
@@ -109,6 +110,7 @@ public class MonitorUtils {
                     .filter(inter -> inter.getName().equals(target))
                     .toList();
             if (!ifs.isEmpty()) {
+                log.info("当前监听网卡:{}", target);
                 return ifs.getFirst();
             } else {
                 throw new IOException("网卡信息错误，找不到网卡" + target);
