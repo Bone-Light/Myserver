@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ServerCard from "@/views/component/ServerCard.vue";
-import {reactive, ref} from 'vue';
+import {reactive, ref, computed} from 'vue';
 import {useStore} from '@/store'
 import {get} from '@/net'
 import {
@@ -49,13 +49,24 @@ const checkNodes = ref([]);
 const detail = reactive({
   show: true,
   id: -1
-})
+});
+
+const clientList = computed(() => {
+  return list.value;
+});
+
+const displayClientDetails = (id:number) => {
+  detail.show = true;
+  detail.id = id;
+}
 
 const updateList = () => {
-  if (route.name === 'manage') {
-    get('/api/monitor/list', (data:any) => list.value = data)
+  if (route.name === 'monitor') {
+    get('/api/monitor/list', (data:any) => {list.value = data; console.log(list.value)} )
   }
 }
+setInterval(updateList, 10000);
+updateList();
 
 const register = reactive({
   show: false,
@@ -173,13 +184,13 @@ const handleClose = (key: string, keyPath: string[]) => {
             </el-form-item>
           </el-form>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
-            <server-card/>
+            <server-card v-for="(item,index) in clientList" :data="item" :update="updateList" @click="displayClientDetails(index)"/>
           </div>
         </el-main>
         <el-footer>Footer</el-footer>
       </el-container>
 
-      <el-drawer size="520" v-model="detail.show" :show-close="false"
+      <el-drawer size="500" v-model="detail.show" :show-close="false"
                   :with-header="false" v-if="list.length" @close="detail.id">
         Drawer
       </el-drawer>
@@ -187,6 +198,11 @@ const handleClose = (key: string, keyPath: string[]) => {
 </template>
 
 <style scoped>
+:deep(.el-drawer){
+  margin: 10px;
+  height: calc(100% - 20px);
+  border-radius: 10px;
+}
 
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 200px;
@@ -284,5 +300,9 @@ const handleClose = (key: string, keyPath: string[]) => {
   background-color: var(--el-color-primary-light-9);
   border-color: var(--el-color-primary);
   color: var(--el-color-primary);
+}
+
+.dark .main-container .main-content {
+  background-color: #232323;
 }
 </style>

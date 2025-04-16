@@ -24,8 +24,7 @@ function userLogin() {
   loginRef.value.validate((valid:boolean) => {
     if (valid) {
       ElMessage.success("登录成功");
-      // login(loginForm.username, loginForm.password, loginForm.remember, ()=>{router.push("/monitor")});
-      router.push("/monitor") ///////
+      login(loginForm.username, loginForm.password, loginForm.remember, ()=>{router.push("/monitor")});
     }
   })
 }

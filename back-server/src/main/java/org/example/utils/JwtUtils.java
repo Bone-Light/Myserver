@@ -47,7 +47,7 @@ public class JwtUtils {
             return JWT.create()
                     .withJWTId(UUID.randomUUID().toString())
                     .withClaim("id", userId)
-                    .withClaim("username", username)
+                    .withClaim("name", username)
                     .withClaim("authorities", user.getAuthorities()
                             .stream()
                             .map(GrantedAuthority::getAuthority).toList())
@@ -67,7 +67,8 @@ public class JwtUtils {
             DecodedJWT jwt = jwtVerifier.verify(token);
             if(this.isInvalidToken(jwt.getId())) return null;
             if(this.isInvalidUser(jwt.getClaim("id").asInt())) return null;
-            return new Date().after(jwt.getExpiresAt()) ? jwt : null;
+            Map<String, Claim> claims = jwt.getClaims();
+            return new Date().after(claims.get("exp").asDate()) ? null : jwt;
         } catch (Exception e){
             return null;
         }
@@ -79,7 +80,7 @@ public class JwtUtils {
     }
 
     public UserDetails toUser(DecodedJWT decodedJWT){
-        Map<String, Claim>  claims = decodedJWT.getClaims();
+        Map<String, Claim> claims = decodedJWT.getClaims();
         return User
                 .withUsername(claims.get("name").asString())
                 .password("******")
@@ -125,7 +126,7 @@ public class JwtUtils {
         if(this.isInvalidToken(uuid)) return false;
         Date now = new Date();
         long expire = Math.max(time.getTime() - now.getTime(), 0L);
-        stringRedisTemplate.opsForValue().set(Const.JWT_BLACK_LIST + uuid, uuid, expire, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(Const.JWT_BLACK_LIST + uuid, "", expire, TimeUnit.HOURS);
         return true;
     }
 

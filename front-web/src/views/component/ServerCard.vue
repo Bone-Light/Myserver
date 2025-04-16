@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const online:boolean = false;
+import {fitByUnit,percentageToStatus,osNameToIcon,cpuNameToImage,copyIp,rename} from '@/tools';
+defineProps({
+  data: Object,
+  update: Function
+})
 </script>
 
 <template>
@@ -8,17 +12,19 @@ const online:boolean = false;
       <div class="card-header">
         <div class="server-info">
           <div class="hostname-container">
-            <span class="flag-icon flag-icon-cn"></span>
-            <span class="hostname">主机名字</span>
-            <i class="fa-solid fa-pen-to-square edit-icon"/>
+            <span :class="`flag-icon flag-icon-${data?.location}`"></span>
+            <span class="hostname">{{ data?.name }}</span>
+            <i class="fa-solid fa-pen-to-square edit-icon" @click.stop="rename(data.id, data.name, update)"/>
           </div>
           <div class="os">
-            <i class="fa-brands fa-apple"></i>
-            <span>macOS 14.2</span>
+            操作系统:
+            <i :style="{color: osNameToIcon(data?.osName).color}"
+                :class="`fa-brands ${osNameToIcon(data?.osName).icon}`"></i>
+            <span>{{`${data?.osName} ${data?.osVersion}`}}</span>
           </div>
         </div>
-        <div class="status" v-if="online">
-          <i class="fa-solid fa-circle-play online-icon"></i>
+        <div class="status" v-if="data?.online">
+          <i style="color:#67C23A" class="fa-solid fa-circle-play online-icon"></i>
           <span>运行中</span>
         </div>
         <div class="status" v-else>
@@ -31,33 +37,29 @@ const online:boolean = false;
     <div class="card-content">
       <div class="ip-info">
         <span>公网ip:</span>
-        <span class="ip-address">192.162.0.10</span>
-        <i class="fa-solid fa-copy copy-icon"/>
+        <span class="ip-address">{{data?.ip}}</span>
+        <i class="fa-solid fa-copy copy-icon" @click.stop="copyIp(data?.ip)"/>
       </div>
       
       <div class="hardware-info">
-        <div class="processor">处理器: Apple M4 Pro</div>
+        <div class="processor">处理器: {{data?.cpuName}}</div>
         <div class="specs">
           <span class="cpu-info">
             <i class="fa-solid fa-microchip"></i>
-            <span> 92 cpu</span>
+            <span> {{`${data?.cpuCore.toFixed(1)} CPU`}}</span>
           </span>
           <span class="memory-info">
             <i class="fa-solid fa-memory"></i>
-            <span> 64 GB</span>
+            <span>{{`${data?.memory.toFixed(1)} GB`}}</span>
           </span>
         </div>
       </div>
 
       <div class="resource-usage">
-        <div class="resource-item">
-          <span class="resource-label">CPU</span>
-          <el-progress :percentage="50" :stroke-width="10" color="#67C23A"/>
-        </div>
-        <div class="resource-item">
-          <span class="resource-label">内存</span>
-          <el-progress :percentage="20" :stroke-width="10" color="#E6A23C"/>
-        </div>
+          <div class="resource-label"> {{`CPU ${(data?.cpuUsage * 100).toFixed(1)} %`}}</div>
+          <el-progress :percentage="data?.cpuUsage * 100" :stroke-width="10" :show-text="false"/>
+          <div class="resource-label">内存 {{`${data?.memoryUsage.toFixed(1)} GB`}}</div>
+          <el-progress :percentage="data?.memoryUsage / data?.memory * 100" :stroke-width="10" :show-text="false"/>
       </div>
 
       <div class="network-traffic">
@@ -65,12 +67,12 @@ const online:boolean = false;
         <div class="traffic-data">
           <span class="upload"> 
             <i class="fa-solid fa-arrow-up"></i> 
-            <span>10kb</span> 
+            <span>{{` ${fitByUnit(data?.networkUpload, 'KB')}`}}</span>
           </span>
           <span class="divider">|</span>
           <span class="download"> 
             <i class="fa-solid fa-arrow-down"></i> 
-            <span>10mb</span> 
+            <span>{{`${fitByUnit(data?.networkDownload, 'KB')}`}}</span>
           </span>
         </div>
       </div>
@@ -81,10 +83,10 @@ const online:boolean = false;
 <style scoped>
 .server-card {
   width: 360px;
-  height: 257px;
+  height: 280px;
   border-radius: 8px;
   transition: all 0.3s;
-  background: #ffffff;
+  background: var(--el-card-bg-color);
 }
 
 .server-card:hover {
@@ -97,7 +99,7 @@ const online:boolean = false;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1.3px solid #f0f0f0;
+  border-bottom: var(--el-border);
 }
 
 .server-info {
@@ -115,19 +117,19 @@ const online:boolean = false;
 .hostname {
   font-weight: 600;
   font-size: 14px;
-  color: #303133;
+  color: var(--el-text-color-regular);
 }
 
 .edit-icon {
   cursor: pointer;
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-regular);
   transition: color 0.2s;
 }
 
 .os {
   font-size: 12px;
-  color: #606266;
+  color: var(--el-text-color-regular);
   display: flex;
   align-items: center;
   gap: 3px;
@@ -164,21 +166,26 @@ const online:boolean = false;
   align-items: center;
   gap: 5px;
   padding: 5px;
-  background: #f8f9fa;
+  background: var(--el-card-bg-color);
   border-radius: 4px;
 }
 
 .copy-icon {
   cursor: pointer;
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-regular);
   padding: 5px;
   transition: all 0.2s;
+
+  &:hover{
+    color: #409EFF;
+    scale: 1.05;
+  }
 }
 
 .hardware-info {
   padding: 3px;
-  background: #f8f9fa;
+  background: var(--el-card-bg-color);
   border-radius: 4px;
 }
 
@@ -192,22 +199,16 @@ const online:boolean = false;
   display: flex;
   flex-direction: column;
   gap: 3px;
-  background: #f8f9fa;
+  background: var(--el-card-bg-color);
   padding: 8px;
   border-radius: 4px;
 }
 
-.resource-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
 .resource-label {
-  font-size: 12px;
-  color: #606266;
+  font-size: 11px;
+  color: var(--el-text-color-regular);
   font-weight: 500;
-  min-width: 39px;
+  min-width: 60px;
 }
 
 :deep(div.el-progress__text) {
@@ -228,7 +229,7 @@ const online:boolean = false;
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #f8f9fa;
+  background: var(--el-card-bg-color);
   padding: 8px;
   border-radius: 4px;
 }
@@ -243,7 +244,7 @@ const online:boolean = false;
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #606266;
+  color: var(--el-text-color-regular);
 }
 
 .upload,
@@ -254,6 +255,6 @@ const online:boolean = false;
 }
 
 .divider {
-  color: #dcdfe6;
+  color: var(--el-text-color);
 }
 </style>

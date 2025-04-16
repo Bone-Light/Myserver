@@ -11,9 +11,9 @@ import org.example.DAO.entity.DTO.ClientSsh;
 import org.example.DAO.entity.VO.request.*;
 import org.example.DAO.entity.VO.responst.*;
 import org.example.DAO.mapper.ClientDetailMapper;
+import org.example.DAO.mapper.ClientMapper;
 import org.example.DAO.mapper.ClientSshMapper;
 import org.example.DAO.service.ClientService;
-import org.example.DAO.mapper.ClientMapper;
 import org.example.utils.InfluxDBUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -50,6 +50,7 @@ public class ClientImpl extends ServiceImpl<ClientMapper, Client>
         clientTokenCache.clear();
         clientIdCache.clear();
         this.list().forEach(this::addClientCache);
+        System.out.println(this.list());
     }
 
     @Override

@@ -37,6 +37,4 @@ const url: string = '/src/assets/images/bkLogin.jpg'
   height: 100%;
   filter: brightness(0.7);
 }
-
-
 </style>

@@ -23,6 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -111,7 +112,15 @@ public class AccountImpl extends ServiceImpl<AccountMapper, Account>
 
     @Override
     public void createSubAccount(CreateSubAccountVO vo) {
-
+        Account account = this.findAccountByNameOrEmail(vo.getEmail());
+        if(account != null)
+            throw new IllegalArgumentException("该电子邮件已被注册");
+        account = this.findAccountByNameOrEmail(vo.getUsername());
+        if(account != null)
+            throw new IllegalArgumentException("该用户名已被注册");
+        account = new Account(null, vo.getUsername(), passwordEncoder.encode(vo.getPassword()),
+                vo.getEmail(), Const.ROLE_NORMAL, new Date(), JSONArray.copyOf(vo.getClients()).toJSONString());
+        this.save(account);
     }
 
     @Override

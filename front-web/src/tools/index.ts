@@ -14,7 +14,8 @@ function fitByUnit(value:number, unit:string): string {
             index --;
         }
     }
-    return `${value} ${units[index]}`;
+    if(index < 0) return `0 B`;
+    return `${value?.toFixed(2)} ${units[index]}`;
 }
 
 function percentageToStatus(percentage:number):string {
@@ -24,12 +25,14 @@ function percentageToStatus(percentage:number):string {
 }
 
 function osNameToIcon(name:string):any {
+    if(!name) return {icon: 'fa-linux', color: 'gray'};  // 处理undefined或null的情况
+
     if(name.indexOf('Ubuntu') >= 0) return {icon: 'fa-ubuntu', color: '#db4c1a'};
     else if(name.indexOf('CentOS') >= 0) return {icon: 'fa-centos', color: '#9dcd30'};
     else if(name.indexOf('macOS') >= 0) return {icon: 'fa-apple', color: 'gray'};
-    else if(name.indexOf('Windows') >= 0) return {icon: 'fa-apple', color: '#3578b9'};
+    else if(name.indexOf('Windows') >= 0) return {icon: 'fa-windows', color: '#3578b9'};
     else if(name.indexOf('Debian') >= 0) return {icon: 'fa-debian', color: '#a80836'};
-    else  return {icon: 'fa-linux', color: 'gray'};
+    else return {icon: 'fa-linux', color: 'gray'};
 }
 
 function cpuNameToImage(name:string):string {
@@ -48,8 +51,8 @@ function rename(id:number, name:string, after:Function):void {
             inputErrorMessage: '名称只能包含中英文字符、数字、下划线',
         }).then(({value}) => post('/api/monitor/rename', // FIXME: 链接
         {id: id, name: value}, () => {
-            ElMessage.success('主机更名成功'),
-                after();
+            ElMessage.success('主机更名成功');
+            after();
         })
     )
 }

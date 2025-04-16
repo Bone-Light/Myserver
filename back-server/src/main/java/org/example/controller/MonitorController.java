@@ -10,13 +10,11 @@ import org.example.DAO.entity.VO.responst.*;
 import org.example.DAO.service.AccountService;
 import org.example.DAO.service.ClientService;
 import org.example.utils.Const;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/monitor")
 public class MonitorController {
     @Resource
     ClientService clientService;
@@ -28,6 +26,7 @@ public class MonitorController {
     public RestBean<List<ClientPreviewVO>> listAllClient(@RequestAttribute(Const.ATTR_USER_ID) int userId,
                                                 @RequestAttribute(Const.ATTR_USER_ROLE) String userRole) {
         List<ClientPreviewVO> clients = clientService.listClients();
+
         if(this.isAdminAccount(userRole)) {
             return RestBean.success(clients);
         } else {
@@ -49,7 +48,7 @@ public class MonitorController {
         }
     }
 
-    @PostMapping("rename")
+    @PostMapping("/rename")
     public RestBean<Void> renameClient(@RequestBody @Valid RenameClientVO vo,
                                        @RequestAttribute(Const.ATTR_USER_ID) int userId,
                                        @RequestAttribute(Const.ATTR_USER_ROLE) String userRole) {
@@ -60,7 +59,7 @@ public class MonitorController {
             return RestBean.noPermission();
         }
     }
-    @PostMapping("node")
+    @PostMapping("/node")
     public RestBean<Void> renameNode(@RequestBody @Valid RenameNodeVO vo,
                                      @RequestAttribute(Const.ATTR_USER_ID) int userId,
                                      @RequestAttribute(Const.ATTR_USER_ROLE) String userRole) {
@@ -71,7 +70,7 @@ public class MonitorController {
             return RestBean.noPermission();
         }
     }
-    @GetMapping("details")
+    @GetMapping("/details")
     public RestBean<ClientDetailsVO> details(int clientId,
                                              @RequestAttribute(Const.ATTR_USER_ID) int userId,
                                              @RequestAttribute(Const.ATTR_USER_ROLE) String userRole){

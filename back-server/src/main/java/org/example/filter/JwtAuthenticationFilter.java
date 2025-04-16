@@ -40,6 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
         String url = request.getRequestURI();
+
         if(url.startsWith("/monitor")){
             if(!url.endsWith("/register")){
                 // 自建
@@ -62,7 +63,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 request.setAttribute(Const.ATTR_USER_ID, jwtUtils.toId(jwt));
                 request.setAttribute(Const.ATTR_USER_ROLE, new ArrayList<>(userDetails.getAuthorities()).getFirst().getAuthority());
-
                 if(request.getRequestURI().startsWith("/terminal") && !accessShell(
                         (int) request.getAttribute(Const.ATTR_USER_ID),
                         (String) request.getAttribute(Const.ATTR_USER_ROLE),

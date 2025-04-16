@@ -3,6 +3,7 @@ import {ref, onMounted, watch, onUnmounted} from "vue";
 import {useRouter} from 'vue-router';
 import { User, SwitchButton, Document, HomeFilled, Star, Monitor,Moon,Sunny } from '@element-plus/icons-vue';
 import {useDark} from "@vueuse/core";
+import {logout} from "@/net";
 const router = useRouter();
 const activeIndex = ref('首页');
 const scrolled = ref(false);
@@ -22,12 +23,16 @@ const handleSelect = (index: string) => {
   }
 };
 
+function userLogout(){
+    logout(()=>router.push("/"));
+}
+
+const dark = ref(useDark());
+
 // 监听滚动事件，改变header样式
 const handleScroll = () => {
   scrolled.value = window.scrollY > 20;
 };
-
-const dark = useDark();
 
 // 监听路由变化，更新活跃菜单项
 watch(() => router.currentRoute.value.path, (newPath) => {
@@ -90,7 +95,7 @@ onUnmounted(() => {
             </el-button>
           </el-tooltip>
           <el-tooltip content="退出登录" placement="bottom" :enterable="false">
-            <el-button class="logout-btn" type="danger" link>
+            <el-button class="logout-btn" type="danger" @click="userLogout" link>
               <el-icon><SwitchButton /></el-icon>
               <span class="Hidspan">退出登录</span>
             </el-button>
@@ -110,10 +115,12 @@ onUnmounted(() => {
   </el-container>
 </template>
 
+
+
 <style scoped>
 .el-header {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid rgba(230, 230, 230, 0.5);
+  background-color: var(--el-card-bg-color);
+  border-bottom: 1px solid rgba(23, 17, 17, 0.5);
   padding: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   height: 60px;
@@ -153,11 +160,6 @@ onUnmounted(() => {
   border-radius: 8px;
 }
 
-.logo-area:hover {
-  transform: scale(1.02);
-  background-color: rgba(68, 104, 235, 0.05);
-}
-
 .logo {
   width: 42px;
   height: 42px;
@@ -169,7 +171,6 @@ onUnmounted(() => {
 .logo-area:hover .logo {
   transform: rotate(5deg);
 }
-
 .title {
   font-size: 18px;
   font-weight: bold;
@@ -451,7 +452,6 @@ onUnmounted(() => {
   }
 }
 
-/* 页面过渡动画 */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -462,7 +462,7 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-/* 主内容区域样式 */
+
 .el-main {
   padding: 20px;
   max-width: 1400px;
@@ -473,4 +473,5 @@ onUnmounted(() => {
 .switch {
   margin: 0 20px;
 }
+
 </style>
