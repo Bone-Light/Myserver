@@ -40,8 +40,8 @@ spring:
       key: 'abcdefghijklmn'
       expire: 72
       limit:
-        base: 10
-        upgrade: 300
+        base: 9
+        upgrade: 280
         frequency: 30
     filter:
       order: -100

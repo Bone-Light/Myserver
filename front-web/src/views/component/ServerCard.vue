@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {fitByUnit,percentageToStatus,osNameToIcon,cpuNameToImage,copyIp,rename} from '@/tools';
-defineProps({
+import {fitByUnit,percentageToStatus,osNameToIcon,copyIp,rename} from '@/tools';
+const props:any = defineProps({
   data: Object,
-  update: Function
+  update: Function,
 })
 </script>
 
@@ -14,7 +14,7 @@ defineProps({
           <div class="hostname-container">
             <span :class="`flag-icon flag-icon-${data?.location}`"></span>
             <span class="hostname">{{ data?.name }}</span>
-            <i class="fa-solid fa-pen-to-square edit-icon" @click.stop="rename(data.id, data.name, update)"/>
+            <i class="fa-solid fa-pen-to-square edit-icon" @click.stop="rename(data?.id, data?.name, props?.update)"/>
           </div>
           <div class="os">
             操作系统:
@@ -57,9 +57,9 @@ defineProps({
 
       <div class="resource-usage">
           <div class="resource-label"> {{`CPU ${(data?.cpuUsage * 100).toFixed(1)} %`}}</div>
-          <el-progress :percentage="data?.cpuUsage * 100" :stroke-width="10" :show-text="false"/>
+          <el-progress :percentage="data?.cpuUsage * 100" :stroke-width="5" :show-text="false" :status="percentageToStatus(data?.cpuUsage * 100)"/>
           <div class="resource-label">内存 {{`${data?.memoryUsage.toFixed(1)} GB`}}</div>
-          <el-progress :percentage="data?.memoryUsage / data?.memory * 100" :stroke-width="10" :show-text="false"/>
+          <el-progress :percentage="data?.memoryUsage / data?.memory * 100" :stroke-width="5" :show-text="false" :status="percentageToStatus(data?.memoryUsage / data?.memory * 100)"/>
       </div>
 
       <div class="network-traffic">
@@ -209,20 +209,6 @@ defineProps({
   color: var(--el-text-color-regular);
   font-weight: 500;
   min-width: 60px;
-}
-
-:deep(div.el-progress__text) {
-  font-size: 14px!important;
-}
-
-:deep(.el-progress) {
-  width: 100%;
-}
-
-:deep(.el-progress-bar__outer) {
-  height: 5px !important;
-  border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 
 .network-traffic {

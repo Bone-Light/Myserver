@@ -50,7 +50,7 @@ public class ClientImpl extends ServiceImpl<ClientMapper, Client>
         clientTokenCache.clear();
         clientIdCache.clear();
         this.list().forEach(this::addClientCache);
-        System.out.println(this.list());
+        System.out.println(clientIdCache);
     }
 
     @Override

@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  我是文章页
+  <div>
+    我是文章页
+  </div>
 </template>
 
 <style scoped>

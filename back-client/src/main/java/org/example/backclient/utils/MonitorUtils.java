@@ -58,7 +58,7 @@ public class MonitorUtils {
             CentralProcessor processor = hardware.getProcessor();
 
             double upload = networkInterface.getBytesSent();
-            double download = networkInterface.getPacketsRecv();
+            double download = networkInterface.getBytesRecv();
             double read = hardware.getDiskStores().stream().mapToLong(HWDiskStore::getReadBytes).sum();
             double write = hardware.getDiskStores().stream().mapToLong(HWDiskStore::getWriteBytes).sum();
             long[] ticks = processor.getSystemCpuLoadTicks();  // 获取CPU时钟周期

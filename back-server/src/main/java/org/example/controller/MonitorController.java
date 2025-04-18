@@ -75,7 +75,7 @@ public class MonitorController {
                                              @RequestAttribute(Const.ATTR_USER_ID) int userId,
                                              @RequestAttribute(Const.ATTR_USER_ROLE) String userRole){
         if(this.permissionCheck(userId,userRole,clientId)){
-            return RestBean.success(clientService.clientDetails(userId));
+            return RestBean.success(clientService.clientDetails(clientId));
         } else {
             return RestBean.noPermission();
         }
@@ -104,8 +104,7 @@ public class MonitorController {
     }
 
     @GetMapping("/register")
-    public RestBean<String> registerClient(int clientId,
-                                           @RequestAttribute(Const.ATTR_USER_ROLE) String userRole){
+    public RestBean<String> registerClient(@RequestAttribute(Const.ATTR_USER_ROLE) String userRole){
         if(this.isAdminAccount(userRole)) {
             return RestBean.success(clientService.registerToken());
         } else {
@@ -155,8 +154,8 @@ public class MonitorController {
         Account account = accountService.getById(uid);
         return account.getClientList();
     }
-    private boolean permissionCheck(int uid, String role, int ClientId) {
+    private boolean permissionCheck(int uid, String role, int clientId) {
         if(this.isAdminAccount(role)) return true;
-        return this.accountAccessClients(uid).contains(ClientId);
+        return this.accountAccessClients(uid).contains(clientId);
     }
 }

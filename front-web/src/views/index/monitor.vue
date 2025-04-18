@@ -14,6 +14,8 @@ import {
   Plus,
 } from "@element-plus/icons-vue";
 import {useRoute} from "vue-router";
+import ClientDetail from "@/views/component/ClientDetail.vue";
+import RegisterCard from "@/views/component/RegisterCard.vue";
 
 const isCollapse = ref(false);
 const activeIndex = ref('1');
@@ -44,15 +46,16 @@ const locations = [
   {name: 'de', desc: '德国'}
 ];
 
-const checkNodes = ref([]);
+const checkNodes:any = ref([]);
 
 const detail = reactive({
-  show: true,
+  show: false,
   id: -1
 });
 
-const clientList = computed(() => {
-  return list.value;
+const clientList:any = computed(() => {
+  if(checkNodes.value.length === 0) return list.value;
+  else return list.value.filter((item:any) => checkNodes.value.indexOf(item.location) >= 0)
 });
 
 const displayClientDetails = (id:number) => {
@@ -62,7 +65,7 @@ const displayClientDetails = (id:number) => {
 
 const updateList = () => {
   if (route.name === 'monitor') {
-    get('/api/monitor/list', (data:any) => {list.value = data; console.log(list.value)} )
+    get('/api/monitor/list', (data:any) => {list.value = data;} )
   }
 }
 setInterval(updateList, 10000);
@@ -74,7 +77,6 @@ const register = reactive({
 })
 
 const refreshToken = () => get('/api/monitor/register', (token:string) => register.token = token)
-
 
 const terminal = reactive({
   show: false,
@@ -145,11 +147,6 @@ const handleClose = (key: string, keyPath: string[]) => {
 
           <el-divider />
         </el-menu>
-        <div class="collapse-trigger" @click="isCollapse = !isCollapse">
-          <el-icon :class="{ 'is-collapse': isCollapse }">
-            <el-icon-arrow-left />
-          </el-icon>
-        </div>
       </el-aside>
       <el-container>
         <el-header>
@@ -161,7 +158,7 @@ const handleClose = (key: string, keyPath: string[]) => {
             </div>
 
             <div>
-              <el-button type="primary">
+              <el-button @click="register.show = true" type="primary" plain>
                 添加新主机
                 <el-icon><Plus/></el-icon>
               </el-button>
@@ -176,23 +173,29 @@ const handleClose = (key: string, keyPath: string[]) => {
             </el-form-item>
             <el-form-item>
               <el-checkbox-group v-model="checkNodes">
-                <el-checkbox v-for="node in locations" :key="node" :label="node.name">
+                <el-checkbox v-for="node in locations" :key="node" :value="node.name">
                   <span :class="`flag-icon flag-icon-${node.name}`"></span>
                   <span style="font-size: 13px; margin-left: 10px">{{ node.desc }}</span>
                 </el-checkbox>
               </el-checkbox-group>
             </el-form-item>
           </el-form>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
-            <server-card v-for="(item,index) in clientList" :data="item" :update="updateList" @click="displayClientDetails(index)"/>
+          <div v-if="clientList.length" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
+            <server-card v-for="item in clientList" :data="item" :update="updateList" @click="displayClientDetails(item?.id)"/>
           </div>
+          <el-empty v-else description="还没有任何主机哦，点右上角添加一个吧 ~~"></el-empty>
         </el-main>
         <el-footer>Footer</el-footer>
       </el-container>
 
-      <el-drawer size="500" v-model="detail.show" :show-close="false"
-                  :with-header="false" v-if="list.length" @close="detail.id">
-        Drawer
+      <el-drawer size="540" v-model="detail.show" :show-close="false"
+                  :with-header="false" v-if="list.length" @close="detail.id=-1">
+        <ClientDetail :id="detail.id" :update="updateList" @delete="updateList"></ClientDetail>
+      </el-drawer>
+
+      <el-drawer v-model="register.show" direction="btt" :with-header="false"
+                    style="width: 600px; margin: 10px auto;" size="320" @open="refreshToken">
+        <RegisterCard :token="register.token"/>
       </el-drawer>
     </el-container>
 </template>

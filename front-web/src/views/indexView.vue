@@ -35,7 +35,7 @@ const handleScroll = () => {
 };
 
 // 监听路由变化，更新活跃菜单项
-watch(() => router.currentRoute.value.path, (newPath) => {
+watch(() => router.currentRoute.value.path,  (newPath) => {
   const item = menuItems.find(item => item.path === newPath || (newPath === '/' && item.path === '/'));
   if (item) {
     activeIndex.value = item.index;
@@ -104,11 +104,11 @@ onUnmounted(() => {
       </div>
     </el-header>
     <el-main>
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <div class="fade-container"> <!-- 添加容器 -->
-            <component :is="Component" />
-          </div>
+      <router-view v-slot="{Component}">
+        <transition name="el-fade-in-linear" mode="out-in">
+          <keep-alive include="monitor">
+            <component :is="Component"/>
+          </keep-alive>
         </transition>
       </router-view>
     </el-main>

@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  我是推荐界面
+  <div>
+    我是推荐界面
+  </div>
 </template>
 
 <style scoped>

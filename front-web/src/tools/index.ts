@@ -36,9 +36,9 @@ function osNameToIcon(name:string):any {
 }
 
 function cpuNameToImage(name:string):string {
-    if(name.indexOf('Apple') >= 0) return 'Apple.png';
-    else if(name.indexOf('AMD') >= 0) return 'AMD.png';
-    else return 'Intel.png';
+    if(name.indexOf('Apple') >= 0) return 'cpu-icons/Apple.png';
+    else if(name.indexOf('AMD') >= 0) return 'cpu-icons/AMD.png';
+    else return 'cpu-icons/Intel.png';
 }
 
 function rename(id:number, name:string, after:Function):void {

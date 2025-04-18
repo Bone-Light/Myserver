@@ -10,7 +10,7 @@ axios.defaults.baseURL = 'http://localhost:8081'
 import ElementPlus from 'element-plus' // 新增
 import 'element-plus/dist/index.css'    // 引入样式
 import 'element-plus/theme-chalk/dark/css-vars.css'
-
+import '@/assets/css/element.less'
 
 const app = createApp(App)
 const pinia = createPinia()
