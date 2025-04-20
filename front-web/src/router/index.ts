@@ -25,6 +25,10 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'monitor',
                 name: 'monitor',
                 component: () => import('@/views/index/monitor.vue'),
+            },{
+                path: 'security',
+                name: 'security',
+                component: () => import('@/views/index/Security.vue')
             }
         ]
     },{

@@ -89,7 +89,7 @@ onUnmounted(() => {
         />
         <div class="right-area">
           <el-tooltip content="个人中心" placement="bottom" :enterable="false">
-            <el-button class="user-btn" type="primary" link>
+            <el-button @click="router.push('/security'); activeIndex='';" class="user-btn" type="primary" link>
               <el-icon><User /></el-icon>
               <span class="Hidspan">个人中心</span>
             </el-button>

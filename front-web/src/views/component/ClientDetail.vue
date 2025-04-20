@@ -3,7 +3,7 @@ import {reactive, watch, computed} from "vue";
 import {get,post} from '@/net'
 import {copyIp, osNameToIcon, cpuNameToImage, rename, percentageToStatus, fitByUnit} from "@/tools";
 import {ElMessage,ElMessageBox} from "element-plus";
-import {Delete} from "@element-plus/icons-vue"
+import {Delete,Connection} from "@element-plus/icons-vue"
 import RuntimeHistory from "@/views/component/RuntimeHistory.vue";
 
 const locations = [
@@ -104,7 +104,10 @@ watch(()=>props.id, init, {immediate: true});
             <i class="fa-solid fa-server"/>
             服务器信息
           </div>
-          <el-button :icon="Delete" @click="deleteClient" type="danger" plain text>删除此主机</el-button>
+          <div>
+            <el-button :icon="Connection" type="info" @click="emits('terminal', id)" plain text>SSH远程连接</el-button>
+            <el-button :icon="Delete" @click="deleteClient" type="danger" plain text>删除此主机</el-button>
+          </div>
         </div>
         <el-divider style="margin:10px 0"/>
         <div class="detail-list">

@@ -16,6 +16,7 @@ import {
 import {useRoute} from "vue-router";
 import ClientDetail from "@/views/component/ClientDetail.vue";
 import RegisterCard from "@/views/component/RegisterCard.vue";
+import TerminalWindow from "@/views/component/TerminalWindow.vue";
 
 const isCollapse = ref(false);
 const activeIndex = ref('1');
@@ -78,16 +79,16 @@ const register = reactive({
 
 const refreshToken = () => get('/api/monitor/register', (token:string) => register.token = token)
 
-const terminal = reactive({
-  show: false,
-  id: -1
-})
-
-function openTerminal(id){
+function openTerminal(id:number){
     terminal.show = true;
     terminal.id = id;
     detail.show = false;
 }
+
+const terminal = reactive({
+  show: false,
+  id: -1
+})
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
@@ -158,7 +159,7 @@ const handleClose = (key: string, keyPath: string[]) => {
             </div>
 
             <div>
-              <el-button @click="register.show = true" type="primary" plain>
+              <el-button @click="register.show = true" type="primary" :disabled="!store.isAdmin" plain>
                 添加新主机
                 <el-icon><Plus/></el-icon>
               </el-button>
@@ -190,12 +191,26 @@ const handleClose = (key: string, keyPath: string[]) => {
 
       <el-drawer size="540" v-model="detail.show" :show-close="false"
                   :with-header="false" v-if="list.length" @close="detail.id=-1">
-        <ClientDetail :id="detail.id" :update="updateList" @delete="updateList"></ClientDetail>
+        <ClientDetail :id="detail.id" :update="updateList" @delete="updateList" @terminal="openTerminal"></ClientDetail>
       </el-drawer>
 
       <el-drawer v-model="register.show" direction="btt" :with-header="false"
                     style="width: 600px; margin: 10px auto;" size="320" @open="refreshToken">
         <RegisterCard :token="register.token"/>
+      </el-drawer>
+
+      <el-drawer style="margin: auto; width: 800px; text-align: center" :size="520" direction="btt"
+                 @close="terminal.id = -1"
+                 v-model="terminal.show" :close-on-click-modal="false">
+        <template #header>
+          <div>
+            <div style="font-size: 18px;color: dodgerblue;font-weight: bold;">SSH远程连接</div>
+            <div style="font-size: 14px">
+              远程连接的建立将由服务端完成，因此在内网环境下也可以正常使用。
+            </div>
+          </div>
+        </template>
+        <terminal-window :id="terminal.id"/>
       </el-drawer>
     </el-container>
 </template>
