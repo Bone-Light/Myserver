@@ -48,7 +48,7 @@ function defaultOption(name:string, dataX:any) {
     };
 }
 
-function singleSeries(option:any, name:any, dataY:any, colors:any) {
+function singleSeries(option:any, name:string, dataY:any, colors:any) {
     option.series = [
         {
             name: name,
@@ -74,7 +74,7 @@ function singleSeries(option:any, name:any, dataY:any, colors:any) {
     ]
 }
 
-function doubleSeries(option:any, name:any, dataY:any, colors:any) {
+function doubleSeries(option:any, name:string, dataY:any, colors:any) {
     option.series = [
         {
             name: name[0],

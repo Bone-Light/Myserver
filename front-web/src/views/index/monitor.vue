@@ -199,7 +199,7 @@ const handleClose = (key: string, keyPath: string[]) => {
         <RegisterCard :token="register.token"/>
       </el-drawer>
 
-      <el-drawer style="margin: auto; width: 800px; text-align: center" :size="520" direction="btt"
+      <el-drawer style="margin: auto; width: 800px;" :size="520" direction="btt"
                  @close="terminal.id = -1"
                  v-model="terminal.show" :close-on-click-modal="false">
         <template #header>

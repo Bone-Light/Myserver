@@ -4,6 +4,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.example.DAO.entity.RestBean;
 import org.example.DAO.entity.VO.request.ChangePasswordVO;
+import org.example.DAO.entity.VO.request.CreateSubAccountVO;
 import org.example.DAO.entity.VO.request.ModifyEmailVO;
 import org.example.DAO.entity.VO.responst.SubAccountVO;
 import org.example.DAO.service.AccountService;
@@ -18,7 +19,7 @@ public class UserController {
     @Resource
     AccountService accountService;
 
-    @PostMapping
+    @PostMapping("/change-password")
     public RestBean<Void> changePassword(@RequestBody @Valid ChangePasswordVO vo,
                                            @RequestAttribute(Const.ATTR_USER_ID) int userId){
         return accountService.changePassword(userId, vo.getOldPassword(), vo.getNewPassword()) ?
@@ -32,8 +33,14 @@ public class UserController {
         return result == null ? RestBean.success() : RestBean.failure(401, result);
     }
 
+    @PostMapping("/sub/create")
+    public RestBean<Void> createSubAccount(@RequestBody @Valid CreateSubAccountVO vo) {
+        accountService.createSubAccount(vo);
+        return RestBean.success();
+    }
+
     // uid 将会被动态赋予 { xxx? uid = x }
-    @PostMapping("/sub/delete")
+    @GetMapping("/sub/delete")
     public RestBean<Void> deleteAccount(int uid,
                                         @RequestAttribute(Const.ATTR_USER_ID) int userId){
         if(uid == userId) return RestBean.failure(401, "参数非法");

@@ -4,6 +4,7 @@ import {onBeforeUnmount, onMounted, ref} from "vue";
 import {ElMessage} from "element-plus";
 import {AttachAddon} from "xterm-addon-attach/src/AttachAddon";
 import {Terminal} from "xterm";
+import "xterm/css/xterm.css";
 
 const props = defineProps({
   id: Number

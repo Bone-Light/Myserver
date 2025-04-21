@@ -60,7 +60,7 @@ watch(()=> props.id, id => {
                @validate="onValidate" :rules="rules" ref="formRef" label-width="100">
         <div style="display: flex; gap: 10px">
           <el-form-item style="width:100%" label="服务器IP地址" prop="ip">
-            <el-input v-model="connection.ip" disabled/>
+            <el-input v-model="connection.ip"/>
           </el-form-item>
           <el-form-item style="width: 80px" prop="port" label-width="0">
             <el-input placeholder="端口" v-model="connection.port"/>

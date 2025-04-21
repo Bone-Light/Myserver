@@ -26,11 +26,11 @@ const form = reactive({
 
 const validatePassword = (_rule:any, value:string, callback:Function) => {
   if (value === '') {
-    callback(new Error('请再次输入密码'))
+    callback(new Error('请再次输入密码'));
   } else if (value !== form.new_password) {
-    callback(new Error("两次输入的密码不一致"))
+    callback(new Error("两次输入的密码不一致"));
   } else {
-    callback()
+    callback();
   }
 }
 

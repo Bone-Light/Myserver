@@ -40,7 +40,7 @@ public class MonitorController {
     }
 
     @GetMapping("/simple-list")
-    public RestBean<List<ClientSimpleVO>> simpleClientList(@RequestAttribute(Const.ATTR_USER_ID) String userRole) {
+    public RestBean<List<ClientSimpleVO>> simpleClientList(@RequestAttribute(Const.ATTR_USER_ROLE) String userRole) {
         if(this.isAdminAccount(userRole)) {
             return RestBean.success(clientService.listSimpleList());
         } else {
@@ -147,8 +147,11 @@ public class MonitorController {
 
 
     private boolean isAdminAccount(String userRole) {
-        userRole = userRole.substring(5);
-        return Const.ROLE_ADMIN.equals(userRole);
+        if (userRole.startsWith("ROLE_")) {
+            String role = userRole.substring(5); // 截取前缀后的部分
+            return Const.ROLE_ADMIN.equals(role);
+        }
+        return false;
     }
     private List<Integer> accountAccessClients(int uid) {
         Account account = accountService.getById(uid);

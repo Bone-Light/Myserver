@@ -30,11 +30,11 @@ const rules = {
   username: [
     { required: true, message: '请输入用户名', trigger: ['blur', 'change'] },
     { validator: validateUsername, trigger: ['blur', 'change'] },
-    { min: 2, max: 8, message: '用户名的长度必须在2-8个字符之间', trigger: ['blur', 'change'] },
+    { min: 2, max: 16, message: '用户名的长度必须在2-16个字符之间', trigger: ['blur', 'change'] },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: ['blur', 'change'] },
-    { min: 6, max: 16, message: '密码的长度必须在6-16个字符之间', trigger: ['blur', 'change'] }
+    { min: 6, max: 26, message: '密码的长度必须在6-26个字符之间', trigger: ['blur', 'change'] }
   ], email: [
     { required: true, message: '请输入邮件地址', trigger: ['blur', 'change'] },
     {type: 'email', message: '请输入合法的电子邮件地址', trigger: ['blur', 'change']}
@@ -89,7 +89,7 @@ function createSubAccount() {
           </el-form-item>
           <el-form-item label="电子邮件" prop="email">
             <el-input type="text" v-model="form.email"
-                      :prefix-icon="Message" placeholder="子账户电子用户" maxlength="16"/>
+                      :prefix-icon="Message" placeholder="子账户电子用户" maxlength="26"/>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input type="password" v-model="form.password"

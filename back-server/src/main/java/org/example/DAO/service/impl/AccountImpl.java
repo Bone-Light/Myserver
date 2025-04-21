@@ -118,8 +118,8 @@ public class AccountImpl extends ServiceImpl<AccountMapper, Account>
         account = this.findAccountByNameOrEmail(vo.getUsername());
         if(account != null)
             throw new IllegalArgumentException("该用户名已被注册");
-        account = new Account(null, vo.getUsername(), passwordEncoder.encode(vo.getPassword()),
-                vo.getEmail(), Const.ROLE_NORMAL, new Date(), JSONArray.copyOf(vo.getClients()).toJSONString());
+        account = new Account(null, vo.getUsername(), vo.getEmail(),
+                passwordEncoder.encode(vo.getPassword()), Const.ROLE_NORMAL, new Date(), JSONArray.copyOf(vo.getClients()).toJSONString());
         this.save(account);
     }
 

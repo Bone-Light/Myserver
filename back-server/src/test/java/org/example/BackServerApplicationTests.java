@@ -7,11 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BackServerApplicationTests {
-//    @Resource
-//    PasswordEncoder passwordEncoder;
-//
+    @Resource
+    PasswordEncoder passwordEncoder;
+
     @Test
     void contextLoads() {
-//        System.out.println("加密结果: " + passwordEncoder.encode("123123"));
+        System.out.println("加密结果: " + passwordEncoder.encode("123123"));
     }
 }
