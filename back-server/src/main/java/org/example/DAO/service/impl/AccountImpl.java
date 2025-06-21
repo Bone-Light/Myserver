@@ -161,9 +161,6 @@ public class AccountImpl extends ServiceImpl<AccountMapper, Account>
                 .one();
     }
 
-
-
-
     private void deleteEmailVerifyCode(String email) {
         String key = Const.VERIFY_EMAIL_DATA + email;
         stringRedisTemplate.delete(key);

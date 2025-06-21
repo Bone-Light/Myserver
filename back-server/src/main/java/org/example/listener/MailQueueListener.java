@@ -25,9 +25,9 @@ public class MailQueueListener {
         Integer code = (Integer) data.get("code");
         SimpleMailMessage message = switch (data.get("type").toString()) {
             case "reset" ->
-                createMessage("封灯云 -- 您的密码重置文件","您好,您正在绑定新的电子邮件地址", email);
+                createMessage("封灯云 -- 您的密码重置文件","您好,您正在绑定新的电子邮件地址,您的验证码是：" + code.toString(), email);
             case "modify" ->
-                createMessage("您的邮件你修改验证邮件", "您好, 您正在绑定新的电子邮件地址", email);
+                createMessage("您的邮件你修改验证邮件", "您好, 您正在绑定新的电子邮件地址,您的验证码是：" + code.toString(), email);
             default -> null;
         };
         if(message == null) return;

@@ -64,7 +64,7 @@ onUnmounted(() => {
   <el-container class="app-container">
     <el-header :class="{ 'scrolled': scrolled }">
       <div class="header-content">
-        <div class="logo-area" @click="router.push('/')">
+        <div class="logo-area" @click="router.push('/login')">
           <el-image class="logo" src="/src/assets/images/WK_Icon.png"></el-image>
           <span class="title">封灯云运维</span>
         </div>

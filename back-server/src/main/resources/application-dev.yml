@@ -50,7 +50,7 @@ spring:
       mail-limit: 60
     flow:
       period: 5
-      limit: 100
+      limit: 500
       block: 30
     cors:
       origin: '*'
